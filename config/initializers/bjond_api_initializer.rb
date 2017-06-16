@@ -23,8 +23,8 @@ config.group_configuration_schema = {
   :properties => {
     :sample_field => {
       :type => 'string',
-      :description => 'Sample field description',
-      :title => 'Sample field'
+      :description => 'Facebook Marketing App, which contains consequences for configuring ads.',
+      :title => 'Facebook Ad App'
     }
   },
   :required => ['sample_field']
@@ -38,4 +38,23 @@ end
 
 def config.get_group_configuration(bjond_registration)
   puts '[ get_group_configuration method not implemented. This can be set via BjondAppConfig.instance.get_group_configuration ]'
+end
+
+### The integration app definition is sent to Bjond-Server core during registration.
+config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
+  app_def.id           = 'b93dc2ef-f791-48d1-b34c-cfdf11abcba7'
+  app_def.author       = 'Bjönd, Inc.'
+  app_def.name         = 'Bjönd Shopify App'
+  app_def.description  = 'Bjönd interface with Shopify API.'
+  app_def.iconURL      = 'https://cdn.shopify.com/assets/images/logos/shopify-bag.png'
+  app_def.integrationConsequence = [
+    BjondApi::BjondConsequence.new.tap do |c|
+      c.id = '99768ef5-4567-4c19-8f69-e59f04843913'
+      c.jsonKey = 'createAd'
+      c.name = 'Create Ad'
+      c.description = 'Creates a Facebook Ad'
+      c.webhook = "http://#{Rails.application.config.action_controller.default_url_options[:host] || `hostname`}/facebookad/consequences/createAd"
+      c.serviceId = app_def.id
+    end
+  ]
 end
