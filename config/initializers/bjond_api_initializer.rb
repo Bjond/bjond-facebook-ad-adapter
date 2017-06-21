@@ -32,11 +32,11 @@ config.group_configuration_schema = {
 
 config.encryption_key_name = 'BJOND_FACEBOOK_AD_ENCRYPTION_KEY'
 
-def config.configure_group(result, bjond_registration)
+def config.configure_group(result, bjond_registration, groupid)
   puts '[ App group configuration method not implemented. This can be set via BjondAppConfig.instance.configure_group ]'
 end
 
-def config.get_group_configuration(bjond_registration)
+def config.get_group_configuration(bjond_registration, groupid)
   puts '[ get_group_configuration method not implemented. This can be set via BjondAppConfig.instance.get_group_configuration ]'
 end
 
@@ -50,10 +50,10 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
   app_def.integrationConsequence = [
     BjondApi::BjondConsequence.new.tap do |c|
       c.id = '99768ef5-4567-4c19-8f69-e59f04843913'
-      c.jsonKey = 'createAd'
-      c.name = 'Create Ad'
-      c.description = 'Creates a Facebook Ad'
-      c.webhook = "http://#{Rails.application.config.action_controller.default_url_options[:host] || `hostname`}/facebookad/consequences/createAd"
+      c.jsonKey = 'createOffer'
+      c.name = 'Create Offer'
+      c.description = 'Creates a Facebook Offer'
+      c.webhook = "http://#{Rails.application.config.action_controller.default_url_options[:host] || `hostname`}/facebookad/consequences/createOffer"
       c.serviceId = app_def.id
     end
   ]
