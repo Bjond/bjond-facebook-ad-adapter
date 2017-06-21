@@ -14,8 +14,8 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   config.action_controller.default_url_options = {
-    :host => "localhost:3003",
-    :root_url => "http://localhost:3003"
+    :host => "localhost:3004",
+    :root_url => "http://localhost:3004"
   }
 
   # Don't care if the mailer can't send.

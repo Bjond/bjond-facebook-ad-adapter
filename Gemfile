@@ -19,6 +19,8 @@ gem 'pry_debug'
 gem 'bjond-api', '~> 1.0.0'
 # gem 'bjond-api', :path => '../bjond-integration-gem'
 
+gem 'koala' # Facebook API gem
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
