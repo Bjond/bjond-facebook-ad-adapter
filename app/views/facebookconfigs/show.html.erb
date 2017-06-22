@@ -1,0 +1,69 @@
+<div id="fb-root"></div>
+<script>
+  /* global FB */
+  'use strict';
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : "<%= @facebook_config.facebook_app_id %>",
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v2.9'
+    });
+    FB.AppEvents.logPageView();
+    FB.login(function(response) {
+      console.log('here i am');
+      if (response.status === 'connected') {
+        console.log('connected');
+      } else {
+        console.log('not connected');
+      }
+    });
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    // var url = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9&appId=" + "<%= @facebook_config.facebook_app_id %>";
+    // js.src = url;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    
+    fjs.parentNode.insertBefore(js, fjs);
+
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="show-registrations">
+  <h3>Facebook Configs</h3>
+  <p>
+    <strong>Facebook App ID:</strong>
+    <%= @facebook_config.facebook_app_id %>
+  </p>
+
+<!--   <p>
+    <strong>Facebook App Secret:</strong>
+    <%= @facebook_config.facebook_app_secret %>
+  </p>
+ -->
+  <p>
+    <%- if @facebook_config.user_app_token.nil? %>
+      <div
+        class="fb-login-button"
+        data-max-rows="1"
+        data-size="large"
+        data-button-type="login_with"
+        data-show-faces="false"
+        data-auto-logout-link="false"
+        data-use-continue-as="true">
+      </div>
+      <div id="fb-root"></div>
+    <% else %>
+
+      change button goes here.
+    <% end %>
+  </p>
+
+</div>

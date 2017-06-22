@@ -1,0 +1,96 @@
+<!-- Overrides the gem's  -->
+<div class="show-registrations" ng-controller="registrationsController">
+  <p id="notice"><%= notice %></p>
+
+  <h3>
+    Registration Info
+  </h3>
+
+  <p>
+    <strong>Server:</strong>
+    <%= @bjond_registration.server %>
+  </p>
+
+  <p>
+    <strong>Host:</strong>
+    <%= @bjond_registration.host %>
+  </p>
+
+  <p>
+    <strong>IP:</strong>
+    <%= @bjond_registration.ip %>
+  </p>
+
+
+  <%- if (@bjond_registration.encrypted_encryption_key) %>
+    <div class="encryption-key-found">
+      <p>
+        <strong>API Key / Encryption Key (encrypted):</strong>
+        <%= @bjond_registration.encrypted_encryption_key %>
+      </p>
+    </div>
+  <% else %>
+    <p class="not-found">
+      Please log in to the Bjönd server and locate the encryption key. You must be a tenant administratior. You will find this information on the 'Develop' tab of the system settings. Once you find this information, <%= link_to 'add it here', edit_bjond_registration_path(@bjond_registration) %>.
+    </p>
+
+  <% end %>
+
+  <p>
+    <strong>ID:</strong>
+    <%= @bjond_registration.id %>
+  </p>
+
+
+  <button class="btn register" ng-click="register(<%= @bjond_registration.id %>)">
+    Update Registration
+  </button>
+  </br>
+  <%= link_to 'Edit', edit_bjond_registration_path(@bjond_registration) %> |
+  <%= link_to 'Back', bjond_registrations_path %>
+
+
+  <%- if @services.count > 0 %>
+    <h3>
+      Bjönd Services associated with this Registration
+    </h3>
+
+    <div class="bjond-info">
+      <p>
+        <strong>Note:</strong></br>
+        Please verify that the service endpoints below have the correct host.
+        If the host (preceeding /server-core/services..) is incorrect, the Bjönd Server
+        may need to set its OPENSHIFT_PUBLIC_URL environment variable. Once this
+        environment variable is re-set (and the Bjönd Server restarted), please
+        re-register the affected services.
+      </p>
+      <p>
+        The endpoints may also be manually updated by modifying the Bjönd Service.
+        Please exercise caution when modifying these fields.
+      </p>
+    </div>
+
+    <%- @services.each do |service| %>
+      <div class="bjond-service">
+        <p>
+          <strong>ID:</strong>
+          <%= service.id %>
+        </p>
+        <p>
+          <strong>Group ID:</strong>
+          <%= service.group_id %>
+        </p>
+
+        <p>
+          <strong>Endpoint:</strong>
+          <%= service.endpoint %>
+        </p>
+
+        <p>
+          <%= link_to "Modify Bjönd Service", "/bjond-app/services/edit/#{service.id}"%>
+        </p>
+
+      </div>
+    <% end %>
+  <% end %>
+</div>
