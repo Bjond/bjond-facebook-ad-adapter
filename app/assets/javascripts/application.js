@@ -17,4 +17,3 @@
 //= require bjond_api
 
 angular.module('bjond-app',['bjond-api']);
-

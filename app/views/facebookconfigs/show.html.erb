@@ -1,6 +1,6 @@
 <div id="fb-root"></div>
 <script>
-  /* global FB */
+  /* global FB, $ */
   'use strict';
   window.fbAsyncInit = function() {
     FB.init({
@@ -10,15 +10,22 @@
       version          : 'v2.9'
     });
     FB.AppEvents.logPageView();
-    FB.login(function(response) {
-      console.log('here i am');
-      if (response.status === 'connected') {
-        console.log('connected');
-      } else {
-        console.log('not connected');
+  };
+  function onLogin() {
+    FB.getLoginStatus(function(response) {
+      console.log(response);
+      if (response.authResponse && response.authResponse.accessToken) {
+        var accessToken = response.authResponse.accessToken;
+        $.post('/facebookconfigs/bygroup/<%= @facebook_config.group_id %>/updatefbaccesstoken/',
+          {
+            'fbaccesstoken': accessToken
+          },
+          function () {
+            window.location.reload(false);
+          });
       }
     });
-  };
+  }
 
   (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -27,8 +34,6 @@
     }
     js = d.createElement(s);
     js.id = id;
-    // var url = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9&appId=" + "<%= @facebook_config.facebook_app_id %>";
-    // js.src = url;
     js.src = "//connect.facebook.net/en_US/sdk.js";
     
     fjs.parentNode.insertBefore(js, fjs);
@@ -43,26 +48,33 @@
     <%= @facebook_config.facebook_app_id %>
   </p>
 
-<!--   <p>
-    <strong>Facebook App Secret:</strong>
-    <%= @facebook_config.facebook_app_secret %>
-  </p>
- -->
+  <%- if !@facebook_config.facebook_app_secret.nil? %>
+    <p>
+      <strong>Facebook App Secret:</strong>
+      <%= @facebook_config.facebook_app_secret %>
+    </p>
+  <% end %>
+
   <p>
     <%- if @facebook_config.user_app_token.nil? %>
-      <div
-        class="fb-login-button"
-        data-max-rows="1"
-        data-size="large"
-        data-button-type="login_with"
-        data-show-faces="false"
-        data-auto-logout-link="false"
-        data-use-continue-as="true">
-      </div>
-      <div id="fb-root"></div>
+      <fb:login-button
+        scope="public_profile,email"
+        onlogin="onLogin();"
+        usecontinueas="true"
+        size="large"
+        auto-logout-link="false"
+        buttontype="login_with"
+        >
+      </fb:login-button>
     <% else %>
-
-      change button goes here.
+      User access token saved for this configuration.
+      <%= form_tag(
+        :controller => 'facebookconfigs',
+        :action => "clear_fb_access_token",
+        :params => {:groupid => @facebook_config.group_id},
+        :method => "post") do |f|%>
+      <% end %> 
+      </form>
     <% end %>
   </p>
 
