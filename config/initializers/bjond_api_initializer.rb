@@ -21,10 +21,15 @@ config.group_configuration_schema = {
   :title => 'bjond-facebook-ad-app-schema',
   :type  => 'object',
   :properties => {
-    :sample_field => {
+    :facebook_app_id => {
+      :type => 'string',
+      :description => 'Developer app ID for this particular tenant.',
+      :title => 'Facebook App ID'
+    },
+    :facebook_app_secret => {
       :type => 'string',
       :description => 'Facebook Marketing App, which contains consequences for configuring ads.',
-      :title => 'Facebook Ad App'
+      :title => 'Facebook App Secret'
     }
   },
   :required => ['sample_field']
@@ -33,11 +38,26 @@ config.group_configuration_schema = {
 config.encryption_key_name = 'BJOND_FACEBOOK_AD_ENCRYPTION_KEY'
 
 def config.configure_group(result, bjond_registration, groupid)
-  puts '[ App group configuration method not implemented. This can be set via BjondAppConfig.instance.configure_group ]'
+  fb_config = FacebookConfig.find_or_initialize_by(:bjond_registration_id => bjond_registration.id, :group_id => groupid)
+  if (fb_config.facebook_app_id != result['facebook_app_id'] || fb_config.facebook_app_secret != result['facebook_app_secret'])
+    fb_config.facebook_app_id = result['facebook_app_id']
+    fb_config.facebook_app_secret = result['facebook_app_secret']
+    fb_config.save
+  end
+  return fb_config
 end
 
 def config.get_group_configuration(bjond_registration, groupid)
-  puts '[ get_group_configuration method not implemented. This can be set via BjondAppConfig.instance.get_group_configuration ]'
+  fb_config = FacebookConfig.find_by_bjond_registration_id_and_group_id(bjond_registration.id, groupid)
+  if (fb_config.nil?)
+    puts 'No configuration has been saved yet.'
+    return {
+      :facebook_app_id => '',
+      :facebook_app_secret => '',
+    }
+  else
+    return fb_config
+  end
 end
 
 ### The integration app definition is sent to Bjond-Server core during registration.
