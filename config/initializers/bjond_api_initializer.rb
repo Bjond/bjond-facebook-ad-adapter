@@ -73,7 +73,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
       c.jsonKey = 'createOffer'
       c.name = 'Create Offer'
       c.description = 'Creates a Facebook Offer'
-      c.webhook = "http://#{Rails.application.config.action_controller.default_url_options[:host] || `hostname`}/facebookad/consequences/createOffer"
+      c.webhook = "/facebookad/consequences/create_offer"
       c.serviceId = app_def.id
     end
   ]
