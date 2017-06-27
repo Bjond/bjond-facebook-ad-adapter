@@ -69,7 +69,7 @@
   <p>
     <%- if @facebook_config.user_app_token.nil? %>
       <fb:login-button
-        scope="public_profile,email,ads_management,ads_read"
+        scope="public_profile,email,ads_management,ads_read,manage_pages"
         onlogin="onLogin();"
         usecontinueas="true"
         size="large"
