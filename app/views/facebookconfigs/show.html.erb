@@ -2,6 +2,16 @@
 <script>
   /* global FB, $ */
   'use strict';
+  $(document).ready(function () {
+    $('#reset-access-token').click(function () {
+      $.post('/facebookconfigs/bygroup/<%= @facebook_config.group_id %>/clearfbaccesstoken',
+        {},
+        function () {
+          window.location.reload(false);
+        });
+    });
+  });
+
   window.fbAsyncInit = function() {
     FB.init({
       appId            : "<%= @facebook_config.facebook_app_id %>",
@@ -26,6 +36,7 @@
       }
     });
   }
+
 
   (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -58,7 +69,7 @@
   <p>
     <%- if @facebook_config.user_app_token.nil? %>
       <fb:login-button
-        scope="public_profile,email"
+        scope="public_profile,email,ads_management,ads_read"
         onlogin="onLogin();"
         usecontinueas="true"
         size="large"
@@ -68,6 +79,9 @@
       </fb:login-button>
     <% else %>
       User access token saved for this configuration.
+      <button id="reset-access-token">
+        Reset Access Token
+      </button>
       <%= form_tag(
         :controller => 'facebookconfigs',
         :action => "clear_fb_access_token",
