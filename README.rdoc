@@ -2,6 +2,11 @@
 
 This will serve as the Bjond integration app with the Facebook Marketting API.
 
+For User level documentation, see [this page](https://github.com/Bjond/bjond-health/wiki/Facebook-Ad-Consequences) on configuring this adapter with Bjond.
+
+We will use the Koala ruby gem to handle interaction with Facebook: 
+http://www.rubydoc.info/github/arsduo/koala/master/Koala/Facebook/GraphAPIMethods.
+
 
 == Development
 
