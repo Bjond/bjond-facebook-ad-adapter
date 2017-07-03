@@ -59,4 +59,8 @@ Tests are run using guard, rspec, and capybara.
 
     - BJOND_FACEBOOK_APP_ID (from Facebook App Dashboard)
     - BJOND_FACEBOOK_APP_SECRET (from Facebook App Dashboard)
-    - 
+
+
+
+For more information on Ruby Bjond adapters in general, see this document:
+https://github.com/Bjond/bjond-health/wiki/Ruby-Adapters
