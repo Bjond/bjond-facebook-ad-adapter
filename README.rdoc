@@ -7,6 +7,8 @@ For User level documentation, see this page on configuring this adapter with Bjo
 We will use the Koala ruby gem to handle interaction with Facebook: 
 http://www.rubydoc.info/github/arsduo/koala/master/Koala/Facebook/GraphAPIMethods.
 
+Adapter location:
+https://stormy-woodland-11512.herokuapp.com/
 
 == Development
 
