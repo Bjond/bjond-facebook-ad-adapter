@@ -12,8 +12,10 @@ class ConsequencesController < ApplicationController
     ## we may need to store the page ID in the FacebookConfig object.
     page_access_token = pages[0]["access_token"]
     page_graph = Koala::Facebook::API.new(page_access_token)
-    page_graph.get_connection('me')
     # binding.pry
+    page_graph.get_connection('me')
+
+    
     puts 'Received consequence callback form Bjond server'
     render :json => {:status => 'ok'}
   end
